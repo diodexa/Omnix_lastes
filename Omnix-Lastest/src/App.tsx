@@ -78,7 +78,7 @@ function App() {
           <div className="flex gap-2">
             <input
               placeholder="Write something..."
-              className="flex-1 rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 rounded-md cdborder px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button className="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white">
               Send
