@@ -5,10 +5,9 @@ const Counter = ()=> {
     const [Count,SetCount] = useState(0);
     const RenderCount = useRef (0);
 
-    const handleCount = () => {SetCount(prevCount => prevCount+1); RenderCount.current++}
-
     useEffect (()=>{
-    RenderCount.current++
+    RenderCount.current++;
+    console.log("render")
     })
 
     return (
