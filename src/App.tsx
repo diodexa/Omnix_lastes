@@ -1,5 +1,6 @@
 
 import './App.css'
+import Demo from './components/ClickModal'
 import OutsideDetector from './components/ClickOutsideDetector'
 import ScrollDetector from './components/ScrollDirrectionDetector'
 import Counter from './components/StateRef'
@@ -18,7 +19,8 @@ function App() {
       {/* <TypingDetector/> */}
       {/* <ScrollDetector/> */}
       {/* <Stopwatch/> */}
-      <OutsideDetector/>
+      {/* <OutsideDetector/> */}
+      <Demo/>
     </div>
     </>
   )
