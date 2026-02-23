@@ -1,6 +1,7 @@
 
 import './App.css'
-import Demo from './components/ClickModal'
+import DropdownTrain from './components/Dropdown'
+
 import OutsideDetector from './components/ClickOutsideDetector'
 import ScrollDetector from './components/ScrollDirrectionDetector'
 import Counter from './components/StateRef'
@@ -20,7 +21,7 @@ function App() {
       {/* <ScrollDetector/> */}
       {/* <Stopwatch/> */}
       {/* <OutsideDetector/> */}
-      <Demo/>
+      <DropdownTrain/>
     </div>
     </>
   )
