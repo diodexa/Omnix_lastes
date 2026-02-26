@@ -1,13 +1,7 @@
 
 import './App.css'
-import DropdownTrain from './components/Dropdown'
+import HoverToolTip from './components/HoverToolTip'
 
-import OutsideDetector from './components/ClickOutsideDetector'
-import ScrollDetector from './components/ScrollDirrectionDetector'
-import Counter from './components/StateRef'
-import Stopwatch from './components/Stopwatch'
-import TypingDetector from './components/TypingActivityDetector'
-import CountPrevCurrent from './components/UseRefCountPrev'
 
 function App() {
 
@@ -21,7 +15,8 @@ function App() {
       {/* <ScrollDetector/> */}
       {/* <Stopwatch/> */}
       {/* <OutsideDetector/> */}
-      <DropdownTrain/>
+      {/* <DropdownTrain/> */}
+      <HoverToolTip/>
     </div>
     </>
   )

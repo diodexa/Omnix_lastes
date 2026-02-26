@@ -6,33 +6,34 @@ export default function DropdownTrain() {
 
   const [isOpen,setisOpen] = useState (false)
   const [position, setPosition] = useState({
-    top: 0,
-    left: 0
+    top: 0,left: 0
   });
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     if (!isOpen) return;
-    if (!buttonRef.current) return;
+    if (!buttonRef.current || !dropdownRef.current) return;
 
-      const rect = buttonRef.current.getBoundingClientRect();
-      setPosition({
-        top: rect.bottom,
-        left: rect.left
-      });
-  
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    const dropdownRect = dropdownRef.current.getBoundingClientRect();
 
-      if(isOpen && buttonRef.current && dropdownRef.current){
-        setPosition({
-          top: rect.bottom, 
-          left: rect.left ,
-        }
-        )
-      }
-  },[isOpen])
+    const spaceBottom = window.innerHeight - buttonRect.bottom;
+
+    let finalTop = buttonRect.bottom;
+
+    // flip ke atas jika tidak cukup space
+    if (spaceBottom < dropdownRect.height && buttonRect.top > dropdownRect.height) 
+      {finalTop = buttonRect.top - dropdownRect.height;}
+
+    setPosition({
+      top: finalTop,
+      left: buttonRect.left,
+    });
+
+}, [isOpen]);
 
   return (
     <div>
-      <button style={{border:"2px solid",padding:"10px",position:"fixed"}} onClick={()=>setisOpen(!isOpen)} ref={buttonRef}> Dropdown</button>
+      <button style={{border:"2px solid",padding:"10px",position:"fixed",top:"50%"}} onClick={()=>setisOpen(!isOpen)} ref={buttonRef}> Dropdown</button>
         {isOpen && 
         <div ref={dropdownRef} style={{position:"fixed", top: position.top, left:position.left, border:"1px solid"}}> 
           <div style={{padding:"10px"}}>1</div>
