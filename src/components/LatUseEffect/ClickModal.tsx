@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useClickOutside } from "../Hooks/KlickOutside"
+import { useClickOutside } from "../../Hooks/KlickOutside"
 
 
 export default function Demo() {

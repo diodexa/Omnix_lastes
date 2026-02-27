@@ -1,6 +1,7 @@
 
 import './App.css'
-import HoverToolTip from './components/HoverToolTip'
+import TextAutoArea from './components/LatUseLayout/TextAreaAutoHeight'
+
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
       {/* <Stopwatch/> */}
       {/* <OutsideDetector/> */}
       {/* <DropdownTrain/> */}
-      <HoverToolTip/>
+      {/* <HoverToolTip/> */}
+      <TextAutoArea/>
     </div>
     </>
   )
