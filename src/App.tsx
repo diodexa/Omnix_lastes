@@ -1,8 +1,6 @@
 
 import './App.css'
-import TextAutoArea from './components/LatUseLayout/TextAreaAutoHeight'
-
-
+import OpenModal from './components/LatUseLayout/OpenModal'
 
 function App() {
 
@@ -18,7 +16,8 @@ function App() {
       {/* <OutsideDetector/> */}
       {/* <DropdownTrain/> */}
       {/* <HoverToolTip/> */}
-      <TextAutoArea/>
+      {/* <TextAutoArea/> */}
+      <OpenModal/>
     </div>
     </>
   )
