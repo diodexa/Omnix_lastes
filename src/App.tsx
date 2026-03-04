@@ -1,6 +1,6 @@
 
 import './App.css'
-import NotePage from './components/NoteProject/Pages/NotePage'
+import NotePage from './components/NoteProject/NotePage'
 
 
 function App() {

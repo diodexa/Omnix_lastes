@@ -1,6 +1,5 @@
 
-import ListNote from "../ListNote";
-import { Note } from "../Note";
+import ListNote from "./NoteList";
 
 export default function NotePage () {
     
