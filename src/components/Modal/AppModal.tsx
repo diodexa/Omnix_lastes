@@ -11,6 +11,7 @@ export default function App() {
     <ModalProvider>
       <button onClick={() => setOpenA(true)}>Open Modal A</button>
       <button onClick={() => setOpenB(true)}>Open Modal B</button>
+      
 
       {openA && (
         <Modal>

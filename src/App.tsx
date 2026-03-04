@@ -1,6 +1,7 @@
 
 import './App.css'
-import OpenModal from './components/LatUseLayout/OpenModal'
+import NotePage from './components/NoteProject/Pages/NotePage'
+
 
 function App() {
 
@@ -17,7 +18,8 @@ function App() {
       {/* <DropdownTrain/> */}
       {/* <HoverToolTip/> */}
       {/* <TextAutoArea/> */}
-      <OpenModal/>
+      {/* <OpenModal/> */}
+      <NotePage/>
     </div>
     </>
   )
