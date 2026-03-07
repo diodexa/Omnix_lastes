@@ -1,6 +1,6 @@
 
 import './App.css'
-import { NotePage } from './components/NoteProject/NotePage'
+import { NotePage } from './components/NoteProject/PageNote'
 
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-    <div className='flex justify-center items-center '>
+    <div className='flex justify-center items-center flex-col '>
       {/* <Counter/> */}
       {/* <CountPrevCurrent/> */}
       {/* <TypingDetector/> */}
@@ -19,6 +19,7 @@ function App() {
       {/* <HoverToolTip/> */}
       {/* <TextAutoArea/> */}
       {/* <OpenModal/> */}
+      
       <NotePage/>
     </div>
     </>

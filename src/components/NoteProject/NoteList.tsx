@@ -1,22 +1,30 @@
 import Select from "react-select";
 import {Note} from "./Note"
-import { useRef, useState } from "react";
+import {  useEffect, useState } from "react";
 
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+}
 
-export default function ListNote () {
+interface props {
+    Notes : Note[]
+}
+export default function ListNote ({Notes}:props) {
 
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const dataNoteRef = useRef(Note());
+  
     
 
-    const SelectedNote =  dataNoteRef.current.find(item=> item.id === selectedId);
+    const SelectedNote =  Notes.find(item=> item.id === selectedId);
 
-    console.log(dataNoteRef.current)
     
     return (
         <div>
             <Select 
-            options={dataNoteRef.current.map(item =>({value:item.id, label:item.title}))}
+            options={Notes.map(item =>({value:item.id, label:item.title}))}
             onChange={(e) => setSelectedId(e?.value || null)}
             styles={{option: (base, state) => ({...base,backgroundColor: state.isFocused? "#f6e387": "transparent"}),}}
             />
