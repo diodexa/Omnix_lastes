@@ -15,7 +15,6 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
         const saved = localStorage.getItem("my-Content");
         return saved ? JSON.parse(saved) : "";
     });
-    const [MyNote,setMyNote] = useState("")
 
 
     useEffect(()=>{
@@ -23,14 +22,14 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
             const savedTittle = localStorage.getItem("my-Tittle");
             const savedContent = localStorage.getItem("my-Content");
             if (savedTittle && savedContent){
-                setTittle(savedTittle);
-                setContent(savedContent);
+                setTittle(JSON.parse(savedTittle));
+                setContent(JSON.parse(savedContent));
             };
         }
 
-        window.addEventListener("templates-Update",syncNote);
+        window.addEventListener("",syncNote);
         return ()=> {
-            window.removeEventListener("templates-Update", syncNote);
+            window.removeEventListener("", syncNote);
         }
     },[])
 
@@ -42,10 +41,6 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
     const handleSave = () => {
         if (Tittle && Content){
             AddNote(Tittle,Content);
-            const CombineNote = Tittle +"-"+ Content;
-            setMyNote(CombineNote)
-            localStorage.setItem("my-Note",CombineNote)
-
             setTittle("");
             setContent("");
             onClose()

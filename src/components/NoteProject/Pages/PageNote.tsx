@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { ModalInputNote } from "./ModalInputNote";
-import { Note } from "./Note";
-import ListNote from "./NoteList";
+import { ModalInputNote } from "../Components/ModalInputNote";
+import { Note } from "../API/Note";
+import ListNote from "../Components/NoteList";
 
 
 
 export const NotePage = ()=> {
-    const [note,setNote]= useState(Note())
+    const [note, setNote] = useState(() => {
+        const saved = localStorage.getItem("MyNote");
+        return saved ? JSON.parse(saved) : Note();
+    });
     const [showModal, setShowModal] = useState(false);
 
     const handleChange = (newTittle: string, newContent: string) => {
@@ -16,7 +19,8 @@ export const NotePage = ()=> {
             content: newContent,
             createdAt: new Date().toLocaleDateString("id-ID")
         }
-        setNote([...note,newNote])
+     
+        setNote((prev:string) => [...prev, newNote])
         
     };
 
@@ -26,9 +30,14 @@ export const NotePage = ()=> {
                 setShowModal(false);
             }
         }
+        
         window.addEventListener("keydown",handlekeyDown)
         return()=>{ window.removeEventListener("keydown",handlekeyDown)}
-    },[showModal])
+    },[])
+
+    useEffect(() => {
+        localStorage.setItem("MyNote", JSON.stringify(note));
+    }, [note]);
 
     return(
         <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
