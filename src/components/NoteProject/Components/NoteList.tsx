@@ -1,6 +1,6 @@
 import Select from "react-select";
 import {Note} from "../API/Note"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Note {
   id: string;
@@ -19,7 +19,9 @@ export default function ListNote ({Notes}:props) {
     const GetNotes =  SaveNotes? JSON.parse(SaveNotes) : [];
     const SelectedNote =  GetNotes.find((item :{ id: string | null})=> item.id ===selectedId  )
 
-
+    useEffect(()=>{
+        localStorage.setItem("NoteYangDipilih",(JSON.stringify(SelectedNote)))
+    },[SelectedNote])
     
     return (
         <div>

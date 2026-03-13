@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 
 type props = {
-    AddNote :(title: string, content: string) => void;
+    EditNote :(title: string, content: string) => void;
     isOpen : boolean;
     onClose :()=>void;
 }
-export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
+export const EditNote = ({EditNote,isOpen,onClose}:props)=> {
     const [Tittle, setTittle] = useState(() => {
         const saved = localStorage.getItem("my-Tittle");
         return saved ? JSON.parse(saved) : "";
@@ -19,11 +19,9 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
 
     useEffect(()=>{
         const syncNote =()=>{
-            const savedTittle = localStorage.getItem("my-Tittle");
-            const savedContent = localStorage.getItem("my-Content");
-            if (savedTittle && savedContent){
-                setTittle(JSON.parse(savedTittle));
-                setContent(JSON.parse(savedContent));
+            const EditNote = localStorage.getItem("NoteYangDipilih");
+            if (EditNote){
+                setTittle(JSON.parse(EditNote));
             };
         }
 
@@ -34,19 +32,14 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
     },[])
 
     useEffect(()=>{
-        localStorage.setItem("my-Tittle",Tittle)
-        localStorage.setItem("my-Content",Content)
+        localStorage.setItem("NoteYangDipilih",Tittle)
     },[Tittle,Content])
     
     const handleSave = () => {
         if (Tittle && Content){
-            AddNote(Tittle,Content);
-            setTittle("");
-            setContent("");
-            onClose()
+            EditNote(Tittle,Content);
         }
     }
-    console.log(Tittle,Content)
 
     if(!isOpen) return null
     
@@ -64,7 +57,7 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
                 opacity:1}: {opacity:0}}
                 onClick={onClose}>
                 <div style={{ background: "white", padding: "2rem",display:"flex", flexDirection:"column"}} onClick={(e)=>e.stopPropagation()} >
-                    Input Note Baru
+                    Edit Note
                     <input type="text" placeholder="Isi Judul" value={Tittle} onChange={(e)=>setTittle(e.target.value)} />
                     <textarea placeholder="Isi Note kamu" value={Content} onChange={(e)=>setContent(e.target.value)}> </textarea>
                     <button onClick={()=>handleSave()}>Save</button>
