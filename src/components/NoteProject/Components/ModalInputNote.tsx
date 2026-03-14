@@ -46,7 +46,6 @@ export const ModalInputNote = ({AddNote,isOpen,onClose}:props)=> {
             onClose()
         }
     }
-    console.log(Tittle,Content)
 
     if(!isOpen) return null
     
