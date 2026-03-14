@@ -3,89 +3,139 @@ import { ModalInputNote } from "../Components/ModalInputNote";
 import { Note } from "../API/Note";
 import ListNote from "../Components/NoteList";
 import { EditNote } from "../Components/ModalEditNote";
-import { usefindnote } from "../Hooks/FindNote";
 
+interface NoteType {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+}
 
+export const NotePage = () => {
 
+  const [note, setNote] = useState<NoteType[]>(() => {
+    const saved = localStorage.getItem("MyNote");
+    return saved ? JSON.parse(saved) : Note();
+  });
 
-export const NotePage = ()=> {
-
-    const [note, setNote] = useState(() => {
-        const saved = localStorage.getItem("MyNote");
-        return saved ? JSON.parse(saved) : Note();
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    return localStorage.getItem("ActiveNote");
     });
 
-    const [InputModal, setInputModal] = useState(false);
-    const [EditModal, setEditModal] = useState(false);
-    const {updateSelectedId} = usefindnote()
+  const [InputModal, setInputModal] = useState(false);
+  const [EditModal, setEditModal] = useState(false);
 
-    const saved = localStorage.getItem("ActiveNoteId");
-    const findData = JSON.parse(localStorage.getItem("MyNote") || "[]")
-    const selectedNote = findData.find((item: any) => item.id === saved) || null;
-     
+  const selectedNote = note.find(n => n.id === selectedId) || null;
 
-    const handleChange = (newTittle: string, newContent: string) => {
-        const newNote = {
-            id: crypto.randomUUID(),
-            title: newTittle,
-            content: newContent,
-            createdAt: new Date().toLocaleDateString("id-ID")
-        }
-     
-        setNote((prev:string) => [...prev, newNote])
+  // tambah note
+  const handleChange = (newTitle: string, newContent: string) => {
+
+    const newNote: NoteType = {
+      id: crypto.randomUUID(),
+      title: newTitle,
+      content: newContent,
+      createdAt: new Date().toLocaleDateString("id-ID")
     };
 
-    const HandleEdit = (newTittle: string, newContent: string) => {
-        setNote((prev: any[]) => 
-            prev.map((item) => 
-                item.id === selectedNote.id ? { 
-                        ...item, 
-                        title: newTittle,
-                        content: newContent, 
-                        createdAt: new Date().toLocaleDateString("id-ID") }
-                    : item 
-            )
-        );
-    };
+    setNote(prev => [...prev, newNote]);
+  };
 
+  // edit note
+  const handleEdit = (newTitle: string, newContent: string) => {
 
-    useEffect(()=>{
-         const handlekeyDown =(e:KeyboardEvent)=>{
-            if (e.key==="Escape") {
-                setInputModal(false);
-                setEditModal(false);
+    if (!selectedNote) return;
+
+    setNote(prev =>
+      prev.map(item =>item.id === selectedNote.id ?
+           {
+              ...item,
+              title: newTitle,
+              content: newContent,
+              createdAt: new Date().toLocaleDateString("id-ID")
             }
+          : item
+      )
+    );
+  };
+
+  // ESC close modal
+  useEffect(() => {
+    const handlekeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setInputModal(false);
+        setEditModal(false);
+      }
+    };
+
+    window.addEventListener("keydown", handlekeyDown);
+    return () => window.removeEventListener("keydown", handlekeyDown);
+  }, []);
+
+  // sync ke localStorage
+  useEffect(() => {
+    localStorage.setItem("MyNote", JSON.stringify(note));
+  }, [note]);
+
+  useEffect(() => {
+        if (selectedId) {
+            localStorage.setItem("ActiveNote", selectedId);
+        } else {
+            localStorage.removeItem("ActiveNote");
         }
-        
-        window.addEventListener("keydown",handlekeyDown)
-        return()=>{ window.removeEventListener("keydown",handlekeyDown)}
-    },[])
+    }, [selectedId]);
 
-    useEffect(() => {
-        localStorage.setItem("MyNote", JSON.stringify(note));
-        
-    }, [note]);
+  return (
+    <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
 
-    console.log(selectedNote)
+      <ListNote
+        Notes={note}
+        onSelect={setSelectedId}
+        currentSelectedId={selectedId}
+      />
 
-    return(
-        <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
-            <ListNote Notes={note} onSelect={updateSelectedId} currentSelectedId={selectedNote? selectedNote.id : null} />
-            {selectedNote ? (
-                    <div>
-                        <h2 style={{ color: "#f6e387" }}>{selectedNote.title}</h2>
-                        <p style={{ whiteSpace: "pre-wrap" }}>{selectedNote.content}</p>
-                        <small>Dibuat pada: {selectedNote.createdAt}</small>
-                    </div> 
-                ) : (
-                    <p style={{ color: "gray" }}>Silakan pilih note untuk melihat isi.</p>
-                )}
-            <div style={{display:"flex"}}>
-            <button onClick={()=>setInputModal(!InputModal)} style={{padding:"2rem", border:"2px solid"}}>Tambah Note</button>
-            <button onClick={()=>selectedNote? setEditModal(!EditModal) : alert("isi dulu kategorinya")} style={{padding:"2rem", border:"2px solid"}}>Edit Note</button>
-            </div>
-            <ModalInputNote AddNote={handleChange} isOpen={InputModal} onClose={()=>setInputModal(false)}/>
-            <EditNote EditNote={HandleEdit} isOpen={EditModal} onClose={()=>setEditModal(false)}/>
+      {selectedNote ? (
+        <div>
+          <h2 style={{ color: "#f6e387" }}>{selectedNote.title}</h2>
+          <p style={{ whiteSpace: "pre-wrap" }}>{selectedNote.content}</p>
+          <small>Dibuat pada: {selectedNote.createdAt}</small>
         </div>
-    )
-}
+      ) : (
+        <p style={{ color: "gray" }}>Silakan pilih note untuk melihat isi.</p>
+      )}
+
+      <div style={{display:"flex"}}>
+        <button
+          onClick={() => setInputModal(true)}
+          style={{padding:"2rem", border:"2px solid"}}
+        >
+          Tambah Note
+        </button>
+
+        <button
+          onClick={() =>
+            selectedNote
+              ? setEditModal(true)
+              : alert("Pilih note dulu")
+          }
+          style={{padding:"2rem", border:"2px solid"}}
+        >
+          Edit Note
+        </button>
+      </div>
+
+      <ModalInputNote
+        AddNote={handleChange}
+        isOpen={InputModal}
+        onClose={() => setInputModal(false)}
+      />
+
+      <EditNote
+        note={selectedNote}
+        EditNote={handleEdit}
+        isOpen={EditModal}
+        onClose={() => setEditModal(false)}
+      />
+
+    </div>
+  );
+};
