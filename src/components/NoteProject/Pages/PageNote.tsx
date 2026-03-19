@@ -3,6 +3,7 @@ import { ModalInputNote } from "../Components/ModalInputNote";
 import { Note } from "../API/Note";
 import ListNote from "../Components/NoteList";
 import { EditNote } from "../Components/ModalEditNote";
+import { HapusNote } from "../Components/ModalHapusNote";
 
 interface NoteType {
   id: string;
@@ -24,6 +25,7 @@ export const NotePage = () => {
 
   const [InputModal, setInputModal] = useState(false);
   const [EditModal, setEditModal] = useState(false);
+  const [DeleteModal, setDeleteModal] = useState(false);
 
   const selectedNote = note.find(n => n.id === selectedId) || null;
 
@@ -42,9 +44,7 @@ export const NotePage = () => {
 
   // edit note
   const handleEdit = (newTitle: string, newContent: string) => {
-
     if (!selectedNote) return;
-
     setNote(prev =>
       prev.map(item =>item.id === selectedNote.id ?
            {
@@ -58,12 +58,21 @@ export const NotePage = () => {
     );
   };
 
+  const handleDelete = ()=> {
+    if(!selectedNote) return;
+    setNote(prev=> prev.filter(item=>item.id !== selectedId));
+    setDeleteModal(false);
+    setSelectedId("")
+  }
+
+
   // ESC close modal
   useEffect(() => {
     const handlekeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setInputModal(false);
         setEditModal(false);
+        setDeleteModal(false);
       }
     };
 
@@ -98,6 +107,8 @@ export const NotePage = () => {
           <h2 style={{ color: "#f6e387" }}>{selectedNote.title}</h2>
           <p style={{ whiteSpace: "pre-wrap" }}>{selectedNote.content}</p>
           <small>Dibuat pada: {selectedNote.createdAt}</small>
+          <button onClick={()=> setDeleteModal(true)} 
+          style={{background:"red", color:"white", padding:"1rem"}}> hapus</button>
         </div>
       ) : (
         <p style={{ color: "gray" }}>Silakan pilih note untuk melihat isi.</p>
@@ -134,6 +145,13 @@ export const NotePage = () => {
         EditNote={handleEdit}
         isOpen={EditModal}
         onClose={() => setEditModal(false)}
+      />
+
+      <HapusNote
+      note={selectedNote}
+      DeleteNote={handleDelete}
+      isOpen={DeleteModal}
+      onClose={() => setDeleteModal(false)}
       />
 
     </div>
