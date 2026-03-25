@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ModalInputNote } from "../Components/ModalInputNote";
-import { Note } from "../API/Note";
+import { Note } from "../Data/Note";
 import ListNote from "../Components/NoteList";
 import { EditNote } from "../Components/ModalEditNote";
 import { HapusNote } from "../Components/ModalHapusNote";
@@ -20,8 +20,9 @@ export const NotePage = () => {
   });
 
   const [selectedId, setSelectedId] = useState<string | null>(() => {
-    return localStorage.getItem("ActiveNote");
-    });
+    const saved = localStorage.getItem("ActiveNote");
+    return saved ? saved : null;
+  });
 
   const [InputModal, setInputModal] = useState(false);
   const [EditModal, setEditModal] = useState(false);
@@ -58,12 +59,17 @@ export const NotePage = () => {
     );
   };
 
-  const handleDelete = ()=> {
-    if(!selectedNote) return;
-    setNote(prev=> prev.filter(item=>item.id !== selectedId));
+  // const handleDelete = ()=> {
+  //   if(!selectedNote) return;
+  //   setNote(prev=> prev.filter(item=>item.id !== selectedId));
+  //   setDeleteModal(false);
+  //   setSelectedId("")
+  // }
+  const handleDelete = (id: string) => {
+    setNote(prev => prev.filter(item => item.id !== id));
     setDeleteModal(false);
-    setSelectedId("")
-  }
+    setSelectedId(null);
+  };
 
 
   // ESC close modal
@@ -92,6 +98,7 @@ export const NotePage = () => {
             localStorage.removeItem("ActiveNote");
         }
     }, [selectedId]);
+    
 
   return (
     <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"}}>
