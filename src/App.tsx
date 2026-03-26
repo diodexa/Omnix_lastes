@@ -1,6 +1,7 @@
 
 import './App.css'
-import { NotePage } from './components/NoteProject/Pages/PageNote'
+
+import { ShoppingPage } from './components/ShoppingCart/ShoppingPage'
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
       {/* <TextAutoArea/> */}
       {/* <OpenModal/> */}
       
-      <NotePage/>
+      {/* <NotePage/> */}
+      <ShoppingPage/>
     </div>
     </>
   )
