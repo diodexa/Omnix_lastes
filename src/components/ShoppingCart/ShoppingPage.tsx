@@ -10,7 +10,7 @@ export const ShoppingPage = () => {
     const item = Products()
 
     const [currentBg, setCurrentBg] = useState(item[0].background)
-    const [prevBg, setPrevBg] = useState("")
+    const [prevBg, setPrevBg] = useState(item[0].background) 
 
     const bgRef = useRef<HTMLDivElement | null>(null)
 
@@ -24,7 +24,11 @@ export const ShoppingPage = () => {
         if (bgRef.current) {
         bgRef.current.style.animation = "none"
         bgRef.current.offsetHeight // force reflow
-        bgRef.current.style.animation = "ShowContent 0.8s ease-out forwards"
+        requestAnimationFrame(() => {
+            if (bgRef.current) {
+            bgRef.current.style.animation = "ShowContent 0.8s ease-out forwards"
+                }
+        })
         }
 
     }, [indexCurrent])
@@ -63,7 +67,7 @@ export const ShoppingPage = () => {
                 clip-path: circle(0% at 70% 50%);
                 }
                 to {
-                clip-path: circle(150% at 70% 50%);
+                clip-path: circle(100% at 70% 50%);
                 }
             }
             `}

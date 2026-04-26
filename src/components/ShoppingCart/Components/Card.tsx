@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Products } from "../Data/Products"
 
 interface SliderProps {
