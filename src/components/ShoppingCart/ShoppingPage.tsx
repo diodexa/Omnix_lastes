@@ -16,7 +16,7 @@ export const ShoppingPage = ()=>{
             <Card/>
             <button onClick={()=>SetOpen(true)}>Buka Cart</button>
             {Open && 
-            <Modal> <Cart/> </Modal>
+            <Modal onClose={()=>SetOpen(false)}> <Cart/> </Modal>
             }
         </div>
     )
